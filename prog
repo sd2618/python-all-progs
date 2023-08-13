@@ -1,0 +1,87 @@
+import random
+#**********************FUNCTIONS DEFINED**********************#
+def check_validity():
+    flag=1
+    username=input("Enter a Username--> ")
+    f1=open("D:/PREET/coding/Python Practise/Python_AAT/approved.txt","r+")
+    f2=open("D:/PREET/coding/Python Practise/Python_AAT/usernames.txt","r+")
+    lines1=f1.readlines()
+    lines2=f2.readlines()
+    for line in lines1+lines2:
+        if line.strip() != username:
+            flag=1
+        else:
+            flag=0
+            break
+
+    if(flag==1):
+        f1.write("\n"+username)
+        print(username+" is Valid\n")
+        f1.close()
+        f2.close()
+    else:
+        print(username+" is Already in use!Please Try Entering different Username\n")
+        check_validity()
+
+
+def display_usernames():
+    print("The usernames entered by many other Users:\n")
+    with open("D:/PREET/coding/Python Practise/Python_AAT/approved.txt","r") as f:
+        lines=f.readlines()
+        for line in lines:
+            print(line,end="")
+    print("\n\nThe default usernames stored in system:\n")
+    with open("D:/PREET/coding/Python Practise/Python_AAT/usernames.txt","r") as f:
+        lines=f.readlines()
+        for line in lines:
+            print(line,end="")
+    print("\n")
+
+
+def reset_db():
+    n=int(input("Press 3 Again to Continue! -->"))
+    if n==3:
+        with open("D:/PREET/coding/Python Practise/Python_AAT/approved.txt","w") as f:
+            print("The Database of Usernames is RESET")
+            check_validity()
+    else:
+        reset_db()
+
+def random_username_generator():
+    with open("D:/PREET/coding/Python Practise/Python_AAT/usernames.txt","r") as f:
+        lines=f.readlines()
+        len_of_file=len(lines)
+        r=random.randint(0,len_of_file)
+        print("Here's Your Random Username:- ",lines[r].strip())
+        
+
+
+#**********************MAIN PROGRAM**********************#
+def main():
+    print("What do you want to perform?")
+    print("Input 1 if you want to enter the username and check for validity.")
+    print("Input 2 if you want the list of all usernames already used by other users.")
+    print("Input 3 if you want to reset all the usernames from database.")
+    print("Input 4 if you want to generate a random username from database.")
+    option=int(input("Enter here--> "))
+    if(option==1):
+        check_validity()
+    elif(option==2):
+        print("The list of Usernames is given as follows: \n")
+        display_usernames()
+    elif(option==3):
+        print("!!ARE YOU SURE YOU WANT TO DELETE THE DATABASE!!")
+        reset_db()
+    elif(option==4):
+        random_username_generator()
+    else:
+        print("Input Choice is Invalid")
+        main()
+    n=int(input("Want to perform more actions?Press 1 for Yes and 0 for No -->"))
+    if (n==1):
+        main()
+    elif(n==0):
+        print("Thanks for Using Our Username Manager")
+    else:
+        print("Wrong choice")
+main()
